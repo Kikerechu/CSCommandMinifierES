@@ -4,7 +4,7 @@ def borrarContenido(archivo): # Función utilizada para borrar el contenido de u
     archivo.seek(0)
     archivo.truncate()
 
-def numberList(nums, limit):
+def numberList(nums, limit): # Función maestra de todo el programa. Encuentra las sumas de las longitudes de los comandos sin pasarse del límite impuesto de 255.
     prefix = []
     suma = 0
     if sum(nums) < limit:
@@ -36,7 +36,6 @@ longitud = [] # Definimos la lista que contedrá las longitudes de cada línea.
 comandos = []
 
 comentario = "//" # Creamos una variable que contenga la separación del comentario en el autoexec. En este caso es una barra doble.
-suma = 0
 
 abrir_archivo = codecs.open("autoexec.txt", "r", "utf-8") # Abrimos el archivo del autoexec normal.
 archivo_escribir = codecs.open("converted.txt", "w", "utf-8") # Creamos el archivo donde escribiremos el resultado.
@@ -51,9 +50,9 @@ lineas = len(lines) + 1 # Hayamos el numero de líneas del archivo autoexec. Le 
 #print(lineas)
 
 for linea in lines:
-    lineaactual = linea
-    lineaactual = lineaactual.strip("\n")
-    lineaactual = lineaactual.strip()
+    lineaactual = linea # Creamos una variable que lleve el contenido de la línea.
+    lineaactual = lineaactual.strip("\n") # Quitamos la separación de líneas. Un /n al final de una línea indica el final de esta.
+    lineaactual = lineaactual.strip() # Quitamos espacios en blanco a ambos lados.
     if lineaactual.strip(): # Comprobamos que la línea en cuestión tiene contenido.
         if not lineaactual.startswith(comentario): # Comprobamos que la línea no empieza con un comentario "//".
             if comentario in lineaactual: # Comprobamos si la línea contiene ALGÚN comentario. En tal caso lo borramos y nos quedamos con la parte del comando.
@@ -65,20 +64,20 @@ for linea in lines:
             longitudcomando = len(lineaactual)
             #archivo_escribir.write(lineaactual + "\n") # DEJAR COMENTADO, DEBUG
             comandos.append(lineaactual) #Añadimos a nuestra lista comandos todos los elementos correspondientes.
-            longitud.append(longitudcomando)
+            longitud.append(longitudcomando) # Lo mismo ocurre con nuestras longitudes de comando.
 
-numcomandos = len(numberList(longitud, 255))
+numcomandos = len(numberList(longitud, 255)) # Número de comandos que puede incluir la primera "tira" de 255 carácteres como máximo.
 
 while numcomandos  <= len(longitud):
   numcomandos = len(numberList(longitud, 255))
   for i in range(0,numcomandos):
       comandoactual = comandos[i]
       archivo_escribir.write(comandoactual)
-  print(numcomandos)
+  #print(numcomandos)
   borrarenLista(comandos, numcomandos)
   borrarenLista(longitud, numcomandos)
   archivo_escribir.write("\n -------------------------------------- \n")
-  print(longitud)
+  #print(longitud)
 
 if numcomandos > len(longitud):
     numcomandos = len(longitud)
@@ -88,41 +87,14 @@ if numcomandos > len(longitud):
     borrarenLista(comandos, numcomandos)
     borrarenLista(longitud, numcomandos)
     archivo_escribir.write("\n -------------------------------------- \n")
-    print(comandos)
-    print(longitud)
+    #print(comandos)
+    #print(longitud)
 
-print(comandos)
-print (longitud)
-print (len(longitud))
-print (sum(longitud))
+#print(comandos)
+#print (longitud)
+#print (len(longitud))
+#print (sum(longitud))
 
-
-
-"""
-total = 0
-for line in lines:
-    while total < 255:
-        lineaactual = line
-        #print(len(line))
-        cuenta = len(lineaactual)
-        print(str(cuenta) + ' esta es la cuenta')
-        total = total + cuenta
-        print(total)
-        lineaactual += 1
-
-"""
-
-"""
-while tira <= 255:
-    cuenta = len(lines)
-    print(cuenta)
-    tira = tira + cuenta
-    line+= 1
-    print(tira)
-
-for line in lines:
-    print(len(line))
-"""
 
 archivo_escribir.close()
 abrir_archivo.close()
